@@ -1,0 +1,36 @@
+void move(int dx, int dy) {
+        if (!checkCollision(currentPiece->x + dx, currentPiece->y + dy, currentPiece->shape)) {
+            currentPiece->x += dx;
+            currentPiece->y += dy;
+        } else if (dy > 0) {
+            mergePiece();
+            clearLines();
+            spawnPiece();
+        }
+    }
+
+    // **Fixed Rotation with Wall Kick**
+    void rotatePiece() {
+        vector<vector<int>> rotated = currentPiece->getRotatedShape();
+
+        // Check if rotation is possible
+        if (!checkCollision(currentPiece->x, currentPiece->y, rotated)) {
+            currentPiece->shape = rotated;
+            return;
+        }
+
+        // **Wall Kick Logic** - Try shifting left or right
+        for (int shift : {-1, 1, -2, 2}) {
+            if (!checkCollision(currentPiece->x + shift, currentPiece->y, rotated)) {
+                currentPiece->x += shift;
+                currentPiece->shape = rotated;
+                return;
+            }
+        }
+    }
+
+    void drop() {
+        while (!checkCollision(currentPiece->x, currentPiece->y + 1, currentPiece->shape))
+            currentPiece->y++;
+        move(0, 1);
+    }
