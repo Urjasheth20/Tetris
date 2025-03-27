@@ -1,0 +1,23 @@
+void draw() {
+        system("cls");
+        vector<vector<int>> display = grid;
+        for (int i = 0; i < currentPiece->shape.size(); i++) {
+            for (int j = 0; j < currentPiece->shape[i].size(); j++) {
+                if (currentPiece->shape[i][j])
+                    display[currentPiece->y + i][currentPiece->x + j] = currentPiece->color;
+            }
+        }
+        for (const auto& row : display) {
+            for (int cell : row) {
+                if (cell) {
+                    setConsoleColor(cell);
+                    cout << "[]";
+                    setConsoleColor(7);
+                } else {
+                    cout << " .";
+                }
+            }
+            cout << "\n";
+        }
+        cout << "Score: " << score << " Level: " << level << "\n";
+    }
