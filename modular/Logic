@@ -1,0 +1,24 @@
+void run() {
+        while (!gameOver) {
+            draw();
+
+            // Handle input multiple times before the next drop
+            for (int i = 0; i < speed / 50; i++) {
+                if (_kbhit()) {
+                    char ch = _getch();
+                    switch (ch) {
+                        case 75: move(-1, 0); break;  // Left Arrow
+                        case 77: move(1, 0); break;   // Right Arrow
+                        case 72: rotatePiece(); break; // Up Arrow (Rotate)
+                        case 80: move(0, 1); break;  // Down Arrow (Soft Drop)
+                        case 32: drop(); break;  // Spacebar (Hard Drop)
+                        case 27: gameOver = true; break; // Escape (Exit)
+                    }
+                }
+                Sleep(50);
+            }
+
+            move(0, 1); // Gravity effect
+        }
+        cout << "Game Over! Final Score: " << score << endl;
+    }
